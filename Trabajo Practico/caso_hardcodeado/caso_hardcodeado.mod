@@ -182,4 +182,11 @@ subject to
 	Xpasada5 <= 1;
 // para nodo 6
 	Xpasada6 <= 1;
+
+// Restriccion 6: eliminacion de simetria
+// nivel 1
+Xpasada1 <= Xpasada2;
+// nivel 2
+Xpasada3 <= Xpasada4;
+Xpasada5 <= Xpasada6;
 }

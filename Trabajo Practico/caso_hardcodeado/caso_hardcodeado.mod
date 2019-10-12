@@ -6,11 +6,11 @@
 
 // Nodo = pasada
 
-int M = maxint;
-float m = 0.01;
+int M = 9999999;
+float m = 0.001;
 int cajasA = 10;
-int cajasB = 10;
-int cajasC = 10;
+int cajasB = 20;
+int cajasC = 5;
 
  dvar int Xpasada0;
  dvar int Xpasada1;
@@ -52,16 +52,58 @@ int cajasC = 10;
  dvar boolean EcodCpasada5;
  dvar boolean EcodCpasada6;
  
- dvar boolean Auxpasada0;
- dvar boolean Auxpasada1;
- dvar boolean Auxpasada2;
+ dvar boolean Zeropasada0; // 0 si Xpasada 0 es 0; 1 sino
+ dvar boolean Zeropasada1; // 0 si Xpasada 0 es 0; 1 sino
+ dvar boolean Zeropasada2; // 0 si Xpasada 0 es 0; 1 sino
 
  
 minimize
-   10*(EcodApasada0+EcodApasada1+EcodApasada2+EcodApasada3+EcodApasada4+EcodApasada5+EcodApasada6+EcodBpasada0+EcodBpasada1+EcodBpasada2+EcodBpasada3+EcodBpasada4+EcodBpasada5+EcodBpasada6+EcodCpasada0+EcodCpasada1+EcodCpasada2+EcodCpasada3+EcodCpasada4+EcodCpasada5+EcodCpasada6);
+   cajasA*(EcodApasada0+EcodApasada1+EcodApasada2+EcodApasada3+EcodApasada4+EcodApasada5+EcodApasada6 - 1) +
+   cajasB*(EcodBpasada0+EcodBpasada1+EcodBpasada2+EcodBpasada3+EcodBpasada4+EcodBpasada5+EcodBpasada6 - 1) +
+   cajasC*(EcodCpasada0+EcodCpasada1+EcodCpasada2+EcodCpasada3+EcodCpasada4+EcodCpasada5+EcodCpasada6 - 1);
 
 subject to
 {
+
+// Relacion Xpasada e Mpasada
+
+// |Xpasada|Mpasada|
+// |-------|-------|
+// |   0   |   1   |
+// |   1   |   0   |
+// |   >1  |   1   |
+// |---------------|
+
+// para lograr esto se usa Zeropasada
+// |Xpasada|Zeropasada|
+// |-------|----------|
+// |   0   |   0      |
+// |   >0  |   1      |
+// |------------------|
+
+// para pasada 0
+	Zeropasada0 <= Xpasada0;
+	m * Xpasada0 <= Zeropasada0;
+
+	-M * (1 - Zeropasada0) + Mpasada0 <= Xpasada0 -1;
+	m * (Xpasada0 - 1) <= Mpasada0 + M * (1 - Zeropasada0);
+	1 - 2 * Zeropasada0 <= Mpasada0;
+// para pasada 1
+	Zeropasada1 <= Xpasada1;
+	m * Xpasada1 <= Zeropasada1;
+
+	-M * (1 - Zeropasada1) + Mpasada1 <= Xpasada1 -1;
+	m * (Xpasada1 - 1) <= Mpasada1 + M * (1 - Zeropasada1);
+	1 - 2 * Zeropasada1 <= Mpasada1;
+// para pasada 2
+	Zeropasada2 <= Xpasada2;
+	m * Xpasada2 <= Zeropasada2;
+
+	-M * (1 - Zeropasada2) + Mpasada2 <= Xpasada2 -1;
+	m * (Xpasada2 - 1) <= Mpasada2 + M * (1 - Zeropasada2);
+	1 - 2 * Zeropasada2 <= Mpasada2;
+
+
 // Restriccion 1
 // para nodo 0 (hijos 1 y 2)
 	Xpasada1 + Xpasada2 <= Mpasada0 * M;
@@ -91,31 +133,47 @@ subject to
 	EcodApasada6 + EcodBpasada6 + EcodCpasada6 == Xpasada6;
 	
 // Restriccion 4
-// para nodo 0
-	-M * (1 - Auxpasada0) + Mpasada0 <= Xpasada0 -1;
-	m * (Xpasada0 - 1) <= Mpasada0 + M * (1 - Auxpasada0);
-	1 - 2 * Auxpasada0 <= Mpasada0;
-// para nodo 1
-	-M * (1 - Auxpasada1) + Mpasada1 <= Xpasada1 -1;
-	m * (Xpasada1 - 1) <= Mpasada1 + M * (1 - Auxpasada1);
-	1 - 2 * Auxpasada1 <= Mpasada1;
-// para nodo 2
-	-M * (1 - Auxpasada2) + Mpasada2 <= Xpasada2 -1;
-	m * (Xpasada2 - 1) <= Mpasada2 + M * (1 - Auxpasada2);
-	1 - 2 * Auxpasada2 <= Mpasada2;
-	
-// Restriccion 5
-// para nodo 0
-	Auxpasada0 <= Xpasada0;
-	m * Xpasada0 <= Auxpasada0;
-// para nodo 1
-	Auxpasada1 <= Xpasada1;
-	m * Xpasada1 <= Auxpasada1;
-// para nodo 2
-	Auxpasada2 <= Xpasada2;
-	m * Xpasada2 <= Auxpasada2;
+// para nodo 0 (hijos 1 y 2)
+	// codA
+		EcodApasada1 + EcodApasada2 <= Mpasada0 * M;
+		EcodApasada0 - M * (1 - Mpasada0) <= EcodApasada1 + EcodApasada2;
+		EcodApasada1 + EcodApasada2 <= EcodApasada0 + (1 - Mpasada0) * M;
+	// codB
+		EcodBpasada1 + EcodBpasada2 <= Mpasada0 * M;
+		EcodBpasada0 - M * (1 - Mpasada0) <= EcodBpasada1 + EcodBpasada2;
+		EcodBpasada1 + EcodBpasada2 <= EcodBpasada0 + (1 - Mpasada0) * M;
+	// codC
+		EcodCpasada1 + EcodCpasada2 <= Mpasada0 * M;
+		EcodCpasada0 - M * (1 - Mpasada0) <= EcodCpasada1 + EcodCpasada2;
+		EcodCpasada1 + EcodCpasada2 <= EcodCpasada0 + (1 - Mpasada0) * M;
+// para nodo 1 (hijos 3 y 4)
+	// codA
+		EcodApasada3 + EcodApasada4 <= Mpasada1 * M;
+		EcodApasada1 - M * (1 - Mpasada1) <= EcodApasada3 + EcodApasada4;
+		EcodApasada3 + EcodApasada4 <= EcodApasada1 + (1 - Mpasada1) * M;
+	// codB
+		EcodBpasada3 + EcodBpasada4 <= Mpasada1 * M;
+		EcodBpasada1 - M * (1 - Mpasada1) <= EcodBpasada3 + EcodBpasada4;
+		EcodBpasada3 + EcodBpasada4 <= EcodBpasada1 + (1 - Mpasada1) * M;
+	// codC
+		EcodCpasada3 + EcodCpasada4 <= Mpasada1 * M;
+		EcodCpasada1 - M * (1 - Mpasada1) <= EcodCpasada3 + EcodCpasada4;
+		EcodCpasada3 + EcodCpasada4 <= EcodCpasada1 + (1 - Mpasada1) * M;
+// para nodo 2 (hijos 5 y 6)
+	// codA
+		EcodApasada5 + EcodApasada6 <= Mpasada2 * M;
+		EcodApasada2 - M * (1 - Mpasada2) <= EcodApasada5 + EcodApasada6;
+		EcodApasada5 + EcodApasada6 <= EcodApasada2 + (1 - Mpasada2) * M;
+	// codB
+		EcodBpasada5 + EcodBpasada6 <= Mpasada2 * M;
+		EcodBpasada2 - M * (1 - Mpasada2) <= EcodBpasada5 + EcodBpasada6;
+		EcodBpasada5 + EcodBpasada6 <= EcodBpasada2 + (1 - Mpasada2) * M;
+	// codC
+		EcodCpasada5 + EcodCpasada6 <= Mpasada2 * M;
+		EcodCpasada2 - M * (1 - Mpasada2) <= EcodCpasada5 + EcodCpasada6;
+		EcodCpasada5 + EcodCpasada6 <= EcodCpasada2 + (1 - Mpasada2) * M;
 
-// Restriccion 6
+// Restriccion 5
 // para nodo 3
 	Xpasada3 <= 1;
 // para nodo 4

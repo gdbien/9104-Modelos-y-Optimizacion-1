@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>Trabajo Pr&amp;#225;ctico</description>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="tp_opl.mod" type="model">
+			</ref>
+			<ref name="tp_opl.ops" type="setting">
+			</ref>
+			<ref name="tp_opl.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>

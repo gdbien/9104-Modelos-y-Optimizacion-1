@@ -45,7 +45,7 @@ range rangoPadres = 0..indIniUltNivelPas-1;
 
 //Variables del problema
 dvar int Xpasadas[rangoPasadas];
-dvar boolean Mpasadas[rangoPadres];
+dvar boolean Mpasadas[rangoPasadas];
 dvar boolean Ecodpas[COD_POST][rangoPasadas];
 dvar boolean Zeropasadas[rangoPadres];
 

@@ -11,8 +11,8 @@ int DESTINOS_POR_PASADA = ...;
 int TIEMPO_PROC_CAJA = ...;
 
 //Variables ctes
-int M = 9999999;
-float m = 0.001;
+int M = 99999999;
+float m = 0.0001;
 
 int DPP = DESTINOS_POR_PASADA;
 //Para la sumatoria y obtener la cantidad de nodos totales
@@ -47,25 +47,8 @@ range rangoPadres = 0..indIniUltNivelPas-1;
 dvar int Xpasadas[rangoPasadas];
 dvar boolean Mpasadas[rangoPasadas];
 dvar boolean Ecodpas[COD_POST][rangoPasadas];
-dvar boolean Ycodpas[COD_POST][rangoPasadas];
+//dvar boolean Ycodpas[COD_POST][rangoPasadas];
 dvar boolean Zeropasadas[rangoPasadas];
-
-
-// Relacion Xpasada e Mpasada
-
-// |Xpasada|Mpasada|
-// |-------|-------|
-// |   0   |   1   |
-// |   1   |   0   |
-// |   >1  |   1   |
-// |---------------|
-
-// para lograr esto se usa Zeropasada
-// |Xpasada|Zeropasada|
-// |-------|----------|
-// |   0   |   0      |
-// |   >0  |   1      |
-// |------------------|
 
 
 minimize
@@ -85,7 +68,22 @@ subject to {
 	}
 	
 	forall(pas in rangoPasadas) {
-		//Restriccion 0
+		// Relacion Xpasada e Mpasada
+
+		// |Xpasada|Mpasada|
+		// |-------|-------|
+		// |   0   |   1   |
+		// |   1   |   0   |
+		// |   >1  |   1   |
+		// |---------------|
+
+		// para lograr esto se usa Zeropasada
+		// |Xpasada|Zeropasada|
+		// |-------|----------|
+		// |   0   |   0      |
+		// |   >0  |   1      |
+		// |------------------|
+
 		Zeropasadas[pas] <= Xpasadas[pas];
 		m * Xpasadas[pas] <= Zeropasadas[pas];
 				
@@ -115,16 +113,16 @@ subject to {
 		}
 	}	
 	
-	//Restriccion 7
-	forall(cod in COD_POST) {
-		forall(pas in rangoPasadas) {
-			2 * Ycodpas[cod][pas] <= Ecodpas[cod][pas] + (1 - Mpasadas[pas]);
-			Ecodpas[cod][pas] + (1 - Mpasadas[pas]) <= Ycodpas[cod][pas] + 1;		
-		}	
-	}
+	//Restriccion 7: Saber en que pasada se mata cada codigo postal.
+//	forall(cod in COD_POST) {
+//		forall(pas in rangoPasadas) {
+//			2 * Ycodpas[cod][pas] <= Ecodpas[cod][pas] + (1 - Mpasadas[pas]);
+//			Ecodpas[cod][pas] + (1 - Mpasadas[pas]) <= Ycodpas[cod][pas] + 1;
+//		}
+//	}
 	
-	//Restriccion 8
-	forall(cod in COD_POST) {
-		(sum(pas in rangoPasadas) Ycodpas[cod][pas]) == 1;	
-	}
+	//Restriccion 8: cada codigo postal se mata en una sola pasada
+//	forall(cod in COD_POST) {
+//		(sum(pas in rangoPasadas) Ycodpas[cod][pas]) == 1;
+//	}
 }

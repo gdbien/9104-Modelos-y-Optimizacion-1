@@ -1,6 +1,6 @@
 /*********************************************
  * OPL 12.9.0.0 Model
- * Author: Franc
+ * Author: Franco Daniel Schischlo
  * Creation Date: 10 oct. 2019 at 16:00:07
  *********************************************/
  
@@ -47,24 +47,34 @@ range rangoPadres = 0..indIniUltNivelPas-1;
 dvar int Xpasadas[rangoPasadas];
 dvar boolean Mpasadas[rangoPasadas];
 dvar boolean Ecodpas[COD_POST][rangoPasadas];
-dvar boolean Zeropasadas[rangoPadres];
+dvar boolean Ycodpas[COD_POST][rangoPasadas];
+dvar boolean Zeropasadas[rangoPasadas];
+
+
+// Relacion Xpasada e Mpasada
+
+// |Xpasada|Mpasada|
+// |-------|-------|
+// |   0   |   1   |
+// |   1   |   0   |
+// |   >1  |   1   |
+// |---------------|
+
+// para lograr esto se usa Zeropasada
+// |Xpasada|Zeropasada|
+// |-------|----------|
+// |   0   |   0      |
+// |   >0  |   1      |
+// |------------------|
+
 
 minimize
-  (sum(cod in COD_POST, pas in rangoPasadas) CAJAS[cod] * Ecodpas[cod][pas])-
-  (sum(cod in COD_POST) CAJAS[cod]);
+  (sum(cod in COD_POST, pas in rangoPasadas) TIEMPO_PROC_CAJA *CAJAS[cod] * Ecodpas[cod][pas])-
+  (sum(cod in COD_POST) TIEMPO_PROC_CAJA * CAJAS[cod]);
 
 subject to {
 	forall(pas in rangoPadres) { 
-		//Restriccion 0
-		Zeropasadas[pas] <= Xpasadas[pas];
-		m * Xpasadas[pas] <= Zeropasadas[pas];
-
-		-M * (1 - Zeropasadas[pas]) + Mpasadas[pas] <= Xpasadas[pas] -1;
-		m * (Xpasadas[pas] - 1) <= Mpasadas[pas] + M * (1 - Zeropasadas[pas]);
-		1 - 2 * Zeropasadas[pas] <= Mpasadas[pas];	
-	
 		//Restriccion 1
-		
 		(sum(hijo in (pas*DPP)+1..(pas*DPP)+DPP) Xpasadas[hijo]) <= Mpasadas[pas] * M;
 		Xpasadas[pas] - M * (1 - Mpasadas[pas]) <= (sum(hijo in (pas*DPP)+1..(pas*DPP)+DPP) Xpasadas[hijo]);
 		(sum(hijo in (pas*DPP)+1..(pas*DPP)+DPP) Xpasadas[hijo]) <= Xpasadas[pas] + (1 - Mpasadas[pas]) * M;	
@@ -75,6 +85,14 @@ subject to {
 	}
 	
 	forall(pas in rangoPasadas) {
+		//Restriccion 0
+		Zeropasadas[pas] <= Xpasadas[pas];
+		m * Xpasadas[pas] <= Zeropasadas[pas];
+				
+		-M * (1 - Zeropasadas[pas]) + Mpasadas[pas] <= Xpasadas[pas] -1;
+		m * (Xpasadas[pas] - 1) <= Mpasadas[pas] + M * (1 - Zeropasadas[pas]);
+		1 - 2 * Zeropasadas[pas] <= Mpasadas[pas];	
+	
 		Restriccion3: (sum(cod in COD_POST) Ecodpas[cod][pas]) == Xpasadas[pas];
 	}
 	
@@ -96,4 +114,17 @@ subject to {
 			Restriccion6: Xpasadas[pas] <= Xpasadas[pas+1];		
 		}
 	}	
+	
+	//Restriccion 7
+	forall(cod in COD_POST) {
+		forall(pas in rangoPasadas) {
+			2 * Ycodpas[cod][pas] <= Ecodpas[cod][pas] + (1 - Mpasadas[pas]);
+			Ecodpas[cod][pas] + (1 - Mpasadas[pas]) <= Ycodpas[cod][pas] + 1;		
+		}	
+	}
+	
+	//Restriccion 8
+	forall(cod in COD_POST) {
+		(sum(pas in rangoPasadas) Ycodpas[cod][pas]) == 1;	
+	}
 }

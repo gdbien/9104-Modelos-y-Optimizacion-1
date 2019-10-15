@@ -1,0 +1,44 @@
+Corrida válida:
+
+// solution (optimal) with objective 15
+// Quality Incumbent solution:
+// MILP objective                                 1,5000000000e+01
+// MILP solution norm |x| (Total, Max)            1,40000e+01  2,00000e+00
+// MILP solution error (Ax=b) (Total, Max)        0,00000e+00  0,00000e+00
+// MILP x bound error (Total, Max)                0,00000e+00  0,00000e+00
+// MILP x integrality error (Total, Max)          0,00000e+00  0,00000e+00
+// MILP slack bound error (Total, Max)            0,00000e+00  0,00000e+00
+// 
+
+Ecodpas = [[1 0 0 0 1]
+           [1 0 0 1 0]];
+Xpasadas = [2 0 0 1 1];
+Mpasadas = [1 1 1 0 0];
+Zeropasadas = [1 0 0 1 1];
+
+
+Tiempo de ejecución:
+
+Tried aggregator 3 times.
+MIP Presolve eliminated 30 rows and 5 columns.
+MIP Presolve modified 36 coefficients.
+Aggregator did 9 substitutions.
+Reduced MIP has 9 rows, 11 columns, and 29 nonzeros.
+Reduced MIP has 11 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0,00 sec. (0,10 ticks)
+Found incumbent of value 15,000000 after 0,00 sec. (0,14 ticks)
+Probing fixed 7 vars, tightened 0 bounds.
+Probing time = 0,00 sec. (0,01 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 9 rows and 11 columns.
+All rows and columns eliminated.
+Presolve time = 0,00 sec. (0,01 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0,00 sec. (0,16 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0,00 sec. (0,00 ticks)
+  Sync time (average)   =    0,00 sec.
+  Wait time (average)   =    0,00 sec.
+                          ------------
+Total (root+branch&cut) =    0,00 sec. (0,16 ticks)

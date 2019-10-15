@@ -12,4 +12,4 @@ DESTINOS_POR_PASADA = 3;
 
 TIEMPO_PROC_CAJA = 1; //Expresado en segundos
 
-/*Output: tiempo 160 seg*/
+/*Output: tiempo 160 seg*/ 

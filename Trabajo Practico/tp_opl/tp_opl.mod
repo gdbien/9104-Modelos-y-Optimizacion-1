@@ -10,7 +10,7 @@ int CAJAS[COD_POST] = ...;
 int DESTINOS_POR_PASADA = ...;
 int TIEMPO_PROC_CAJA = ...;
 
-//Variables ctes
+//Variables constantes
 int M = 99999999;
 float m = 0.0001;
 
@@ -28,7 +28,8 @@ int cantTotNodos = ftoi(aux4)+1;
 
 range rangoPasadas = 0..cantTotNodos-1;
 
-//Como no sé extraer de la fórmula los nodos de la última pasada, uso una cuenta auxiliar
+//Dado que no se puede extraer de la fórmula los nodos de la última pasada, utilizamos una cuenta
+//auxiliar
 float aux5 = (((DPP - 1) * cantTotNodos) + 1)/ DPP;
 int cantNodosUltNivel = ftoi(aux5);
 

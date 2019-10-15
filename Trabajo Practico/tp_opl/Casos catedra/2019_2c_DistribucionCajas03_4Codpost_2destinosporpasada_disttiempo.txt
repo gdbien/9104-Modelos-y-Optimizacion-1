@@ -1,0 +1,18 @@
+// solution (optimal) with objective 110
+// Quality Incumbent solution:
+// MILP objective                                 1,1000000000e+02
+// MILP solution norm |x| (Total, Max)            4,40000e+01  4,00000e+00
+// MILP solution error (Ax=b) (Total, Max)        8,88178e-16  4,44089e-16
+// MILP x bound error (Total, Max)                8,88178e-16  4,44089e-16
+// MILP x integrality error (Total, Max)          8,88178e-16  4,44089e-16
+// MILP slack bound error (Total, Max)            8,88178e-16  4,44089e-16
+// 
+
+Ecodpas = [[1
+             1 0 0 0 0 0 0 0 0 0 0 0 0 0]
+             [1 0 1 0 0 0 1 0 0 0 0 0 0 0 1]
+             [1 0 1 0 0 1 0 0 0 0 0 0 0 0 0]
+             [1 0 1 0 0 0 1 0 0 0 0 0 0 1 0]];
+Xpasadas = [4 1 3 0 0 1 2 0 0 0 0 0 0 1 1];
+Mpasadas = [1 0 1 1 1 0 1 1 1 1 1 1 1 0 0];
+Zeropasadas = [1 1 1 0 0 1 1 0 0 0 0 0 0 1 1];

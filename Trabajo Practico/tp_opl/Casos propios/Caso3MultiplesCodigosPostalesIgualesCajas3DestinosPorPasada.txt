@@ -1,0 +1,70 @@
+Corrida válida:
+
+// solution (optimal) with objective 60
+// Quality Incumbent solution:
+// MILP objective                                 6,0000000000e+01
+// MILP solution norm |x| (Total, Max)            3,50000e+01  4,00000e+00
+// MILP solution error (Ax=b) (Total, Max)        0,00000e+00  0,00000e+00
+// MILP x bound error (Total, Max)                0,00000e+00  0,00000e+00
+// MILP x integrality error (Total, Max)          0,00000e+00  0,00000e+00
+// MILP slack bound error (Total, Max)            0,00000e+00  0,00000e+00
+// 
+
+Ecodpas = [[1
+             0 0 1 0 0 0 0 0 0 0 1 0]
+             [1 0 1 0 0 0 0 0 0 0 0 0 0]
+             [1 1 0 0 0 0 0 0 0 0 0 0 0]
+             [1 0 0 1 0 0 0 0 0 0 0 0 1]];
+Xpasadas = [4 1 1 2 0 0 0 0 0 0 0 1 1];
+Mpasadas = [1 0 0 1 1 1 1 1 1 1 1 0 0];
+Zeropasadas = [1 1 1 1 0 0 0 0 0 0 0 1 1];
+
+Tiempo de ejecución:
+
+Tried aggregator 2 times.
+MIP Presolve eliminated 59 rows and 7 columns.
+MIP Presolve modified 297 coefficients.
+Aggregator did 18 substitutions.
+Reduced MIP has 82 rows, 66 columns, and 316 nonzeros.
+Reduced MIP has 63 binaries, 3 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0,00 sec. (0,55 ticks)
+Found incumbent of value 80,000000 after 0,00 sec. (0,69 ticks)
+Probing fixed 25 vars, tightened 6 bounds.
+Probing changed sense of 6 constraints.
+Probing time = 0,00 sec. (0,17 ticks)
+Cover probing fixed 0 vars, tightened 1 bounds.
+Tried aggregator 2 times.
+MIP Presolve eliminated 53 rows and 35 columns.
+Aggregator did 6 substitutions.
+Reduced MIP has 23 rows, 25 columns, and 92 nonzeros.
+Reduced MIP has 25 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0,00 sec. (0,23 ticks)
+Probing time = 0,00 sec. (0,04 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 23 rows, 25 columns, and 92 nonzeros.
+Reduced MIP has 25 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0,00 sec. (0,08 ticks)
+Probing time = 0,00 sec. (0,04 ticks)
+Clique table members: 65.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Root relaxation solution time = 0,00 sec. (0,04 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                           80,0000       40,0000            50,00%
+*     0+    0                           60,0000       40,0000            33,33%
+      0     0        cutoff             60,0000       60,0000        9    0,00%
+      0     0        cutoff             60,0000       60,0000        9    0,00%
+Elapsed time = 0,00 sec. (1,44 ticks, tree = 0,01 MB, solutions = 2)
+
+Root node processing (before b&c):
+  Real time             =    0,00 sec. (1,44 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0,00 sec. (0,00 ticks)
+  Sync time (average)   =    0,00 sec.
+  Wait time (average)   =    0,00 sec.
+                          ------------
+Total (root+branch&cut) =    0,00 sec. (1,44 ticks)
